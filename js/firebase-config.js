@@ -22,4 +22,4 @@ apiKey: "AIzaSyDKQpaRd0IXbCw2jwBtIuwqqp_u8vw8HqM",
 // UID da conta do mototaxista (administrador).
 // Como descobrir: README, passo 6. Use o MESMO UID em firestore.rules.
 // Aqui ele só decide qual tela mostrar; quem protege os dados são as regras.
-export const ADMIN_UID = "oaCnlYkvjUhPhJARjGYanij7Pk62";
+export const ADMIN_UID = "s7O5Xa84svZOfLJWo85rq54EOR72";

@@ -1,0 +1,225 @@
+:root {
+  --asfalto: #1c1f26;
+  --faixa: #ffc400;
+  --faixa-escura: #e6b000;
+  --papel: #f6f5f1;
+  --branco: #ffffff;
+  --verde: #1e8e50;
+  --vermelho: #c9302c;
+  --cinza: #5b6070;
+  --linha: #d9d7cf;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--asfalto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+/* Topo */
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--asfalto);
+  border-bottom: 5px solid var(--faixa);
+}
+
+.marca {
+  color: var(--branco);
+  font-size: 26px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.5px;
+}
+.marca b { color: var(--faixa); font-weight: 900; }
+
+.btn-sair {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid var(--branco);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--branco);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Conteúdo */
+main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 20px 18px 40px;
+}
+
+.view-larga { max-width: 520px; }
+
+h1 {
+  margin: 8px 0 6px;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.sub { margin: 0 0 18px; color: var(--cinza); }
+.centro { text-align: center; color: var(--cinza); margin-top: 40px; }
+.troca { margin: 26px 0 8px; color: var(--cinza); }
+
+/* Formulários */
+label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 14px;
+  border: 2px solid var(--linha);
+  border-radius: 10px;
+  background: var(--branco);
+  color: var(--asfalto);
+  font-size: 18px;
+  font-family: inherit;
+}
+
+input:focus,
+.btn:focus-visible,
+.btn-sair:focus-visible {
+  outline: 3px solid var(--faixa);
+  outline-offset: 2px;
+  border-color: var(--asfalto);
+}
+
+/* Botões */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 58px;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn[disabled] { opacity: 0.6; cursor: wait; }
+
+.btn-principal { background: var(--faixa); color: var(--asfalto); border-color: var(--asfalto); }
+.btn-principal:active { background: var(--faixa-escura); }
+.btn-claro { background: var(--branco); color: var(--asfalto); border-color: var(--asfalto); }
+.btn-perigo { background: var(--branco); color: var(--vermelho); border-color: var(--vermelho); }
+.btn-verde { background: var(--verde); color: var(--branco); }
+.btn-vermelho { background: var(--vermelho); color: var(--branco); }
+.btn-mapa { background: var(--asfalto); color: var(--branco); }
+
+.btn-gigante {
+  min-height: 130px;
+  margin-top: 28px;
+  font-size: 26px;
+  background: var(--faixa);
+  color: var(--asfalto);
+  border: 3px solid var(--asfalto);
+  box-shadow: 0 6px 0 var(--asfalto);
+}
+.btn-gigante:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--asfalto); }
+
+/* Avisos */
+.aviso {
+  margin: 0 0 14px;
+  padding: 14px;
+  border-radius: 10px;
+  border-left: 6px solid var(--vermelho);
+  background: #fdecea;
+  color: #7a1c19;
+  font-weight: 600;
+}
+.aviso.ok { border-left-color: var(--verde); background: #e6f4ec; color: #14532d; }
+
+.caixa-ok {
+  margin: 8px 0 0;
+  padding: 14px;
+  border-left: 6px solid var(--verde);
+  border-radius: 10px;
+  background: #e6f4ec;
+  color: #14532d;
+  font-weight: 600;
+}
+
+/* Acompanhamento */
+.status-caixa {
+  margin-top: 8px;
+  padding: 22px 18px;
+  border: 3px solid var(--asfalto);
+  border-radius: 14px;
+  background: var(--branco);
+}
+.status-caixa h1 { margin-top: 0; }
+.status-caixa p { margin: 0; }
+.status-caixa.s-pendente { background: #fff6d6; }
+.status-caixa.s-aceita { background: #e6f4ec; }
+.status-caixa.s-recusada,
+.status-caixa.s-cancelada { background: #fdecea; }
+
+/* Painel do mototaxista */
+.card {
+  margin-top: 16px;
+  padding: 16px;
+  border: 2px solid var(--asfalto);
+  border-radius: 14px;
+  background: var(--branco);
+}
+.card.s-pendente { border-left-width: 10px; border-left-color: var(--faixa); }
+.card.s-aceita { border-left-width: 10px; border-left-color: var(--verde); }
+.card p { margin: 6px 0; }
+
+.card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.card-topo strong { font-size: 20px; }
+
+.selo {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--asfalto);
+  color: var(--branco);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.discreto { color: var(--cinza); font-size: 14px; }
+.card a.tel { color: var(--asfalto); font-weight: 700; }
+.card .btn { min-height: 52px; font-size: 17px; margin-top: 10px; }
+
+.vazio {
+  margin-top: 20px;
+  padding: 22px;
+  border: 2px dashed var(--linha);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--cinza);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

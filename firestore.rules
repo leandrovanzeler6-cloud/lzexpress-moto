@@ -1,0 +1,118 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ------------------------------------------------------------------
+    // TROQUE o texto abaixo pelo UID da conta do mototaxista (admin).
+    // Mesmo UID que vai em js/firebase-config.js (veja README, passo 6).
+    // ------------------------------------------------------------------
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == 'oaCnlYkvjUhPhJARjGYanij7Pk62';
+    }
+
+    function logado() {
+      return request.auth != null;
+    }
+
+    // ------------------------------------------------------------------
+    // PERFIS: cada pessoa lê só o próprio perfil. Ninguém edita nem apaga.
+    // ------------------------------------------------------------------
+    match /users/{userId} {
+      allow read: if logado() && request.auth.uid == userId;
+
+      allow create: if logado()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(
+             ['userId', 'nome', 'telefone', 'email', 'tipo', 'criadoEm'])
+        && request.resource.data.keys().hasAll(
+             ['userId', 'nome', 'telefone', 'email', 'tipo', 'criadoEm'])
+        && request.resource.data.userId == userId
+        && request.resource.data.tipo == 'passageiro'
+        && request.resource.data.nome is string
+        && request.resource.data.nome.size() >= 3
+        && request.resource.data.nome.size() <= 100
+        && request.resource.data.telefone is string
+        && request.resource.data.telefone.size() >= 8
+        && request.resource.data.telefone.size() <= 20
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 120
+        && request.resource.data.criadoEm == request.time;
+
+      allow update, delete: if false;
+    }
+
+    // ------------------------------------------------------------------
+    // CORRIDAS (solicitações de mototáxi)
+    // ------------------------------------------------------------------
+    match /corridas/{corridaId} {
+
+      // Passageiro lê só as próprias corridas. Admin lê todas.
+      allow read: if logado()
+        && (resource.data.passengerId == request.auth.uid || isAdmin());
+
+      // Passageiro cria corrida somente em seu próprio nome, sempre "pendente".
+      allow create: if logado()
+        && request.resource.data.passengerId == request.auth.uid
+        && request.resource.data.keys().hasAll(
+             ['passengerId', 'nome', 'telefone', 'latitude', 'longitude',
+              'status', 'createdAt', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(
+             ['passengerId', 'nome', 'telefone', 'latitude', 'longitude',
+              'accuracy', 'destino', 'observacao',
+              'status', 'createdAt', 'updatedAt'])
+        && request.resource.data.status == 'pendente'
+        && request.resource.data.nome is string
+        && request.resource.data.nome.size() >= 3
+        && request.resource.data.nome.size() <= 100
+        && request.resource.data.telefone is string
+        && request.resource.data.telefone.size() >= 8
+        && request.resource.data.telefone.size() <= 20
+        && request.resource.data.latitude is number
+        && request.resource.data.latitude >= -90
+        && request.resource.data.latitude <= 90
+        && request.resource.data.longitude is number
+        && request.resource.data.longitude >= -180
+        && request.resource.data.longitude <= 180
+        && (!('accuracy' in request.resource.data)
+            || request.resource.data.accuracy is number)
+        && (!('destino' in request.resource.data)
+            || (request.resource.data.destino is string
+                && request.resource.data.destino.size() <= 120))
+        && (!('observacao' in request.resource.data)
+            || (request.resource.data.observacao is string
+                && request.resource.data.observacao.size() <= 120))
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      // Atualizações: só mudam "status" e "updatedAt". Latitude, longitude,
+      // passengerId e demais campos nunca podem ser alterados.
+      allow update: if logado()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['status', 'updatedAt'])
+        && request.resource.data.updatedAt == request.time
+        && (
+          // Passageiro: só cancela a própria corrida, e só se ainda estiver pendente
+          (resource.data.passengerId == request.auth.uid
+            && resource.data.status == 'pendente'
+            && request.resource.data.status == 'cancelada')
+          ||
+          // Admin: pendente -> aceita/recusada, aceita -> finalizada
+          (isAdmin()
+            && ((resource.data.status == 'pendente'
+                  && request.resource.data.status in ['aceita', 'recusada'])
+                || (resource.data.status == 'aceita'
+                  && request.resource.data.status == 'finalizada')))
+        );
+
+      // Só o admin apaga (limpeza de pedidos antigos).
+      allow delete: if isAdmin();
+    }
+
+    // Todo o resto é bloqueado.
+    match /{outro=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1c1f26">
+  <title>LZEXPRESS - Mototáxi</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topo">
+    <span class="marca">LZ<b>EXPRESS</b></span>
+    <button id="btn-sair" class="btn-sair" type="button" hidden>Sair</button>
+  </header>
+
+  <main>
+    <p id="aviso" class="aviso" role="alert" hidden></p>
+
+    <!-- Carregando -->
+    <section id="view-carregando" class="view">
+      <p id="texto-carregando" class="centro">Carregando...</p>
+    </section>
+
+    <!-- Entrar -->
+    <section id="view-login" class="view" hidden>
+      <h1>Entrar</h1>
+      <p class="sub">Use o e-mail e a senha do seu cadastro.</p>
+      <form id="form-login" novalidate>
+        <label for="login-email">E-mail</label>
+        <input id="login-email" type="email" autocomplete="email" inputmode="email" required>
+
+        <label for="login-senha">Senha</label>
+        <input id="login-senha" type="password" autocomplete="current-password" required>
+
+        <button id="btn-entrar" class="btn btn-principal" type="submit">Entrar</button>
+      </form>
+      <p class="troca">Ainda não tem conta?</p>
+      <button id="ir-cadastro" class="btn btn-claro" type="button">Criar minha conta</button>
+    </section>
+
+    <!-- Cadastro -->
+    <section id="view-cadastro" class="view" hidden>
+      <h1>Criar conta</h1>
+      <p class="sub">Só pedimos o necessário para chamar o mototáxi.</p>
+      <form id="form-cadastro" novalidate>
+        <label for="cad-nome">Nome completo</label>
+        <input id="cad-nome" type="text" autocomplete="name" maxlength="100" required>
+
+        <label for="cad-telefone">Telefone ou WhatsApp (com DDD)</label>
+        <input id="cad-telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="(91) 90000-0000" required>
+
+        <label for="cad-email">E-mail</label>
+        <input id="cad-email" type="email" autocomplete="email" inputmode="email" required>
+
+        <label for="cad-senha">Senha (mínimo 6 caracteres)</label>
+        <input id="cad-senha" type="password" autocomplete="new-password" minlength="6" required>
+
+        <button id="btn-cadastrar" class="btn btn-principal" type="submit">Criar conta</button>
+      </form>
+      <button id="ir-login" class="btn btn-claro" type="button">Já tenho conta</button>
+    </section>
+
+    <!-- Completar perfil (só aparece se o perfil não foi salvo no cadastro) -->
+    <section id="view-perfil" class="view" hidden>
+      <h1>Complete seu cadastro</h1>
+      <p class="sub">Falta salvar seu nome e telefone.</p>
+      <form id="form-perfil" novalidate>
+        <label for="perfil-nome">Nome completo</label>
+        <input id="perfil-nome" type="text" autocomplete="name" maxlength="100" required>
+
+        <label for="perfil-telefone">Telefone ou WhatsApp (com DDD)</label>
+        <input id="perfil-telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" required>
+
+        <button id="btn-perfil" class="btn btn-principal" type="submit">Salvar</button>
+      </form>
+    </section>
+
+    <!-- Tela principal do passageiro -->
+    <section id="view-home" class="view" hidden>
+      <h1 id="ola">Olá!</h1>
+      <p class="sub">Precisa de uma moto? Toque no botão. Vamos pedir a sua localização uma única vez.</p>
+      <button id="btn-chamar" class="btn btn-gigante" type="button">Chamar mototáxi</button>
+    </section>
+
+    <!-- Confirmação do pedido -->
+    <section id="view-confirmar" class="view" hidden>
+      <h1>Confirme seu pedido</h1>
+      <p id="info-local" class="caixa-ok"></p>
+      <form id="form-pedido" novalidate>
+        <label for="ped-destino">Para onde você vai? (opcional)</label>
+        <input id="ped-destino" type="text" maxlength="120" placeholder="Ex.: Mercado Municipal">
+
+        <label for="ped-obs">Ponto de referência (opcional)</label>
+        <input id="ped-obs" type="text" maxlength="120" placeholder="Ex.: casa azul, em frente à padaria">
+
+        <button id="btn-confirmar" class="btn btn-principal" type="submit">Confirmar pedido</button>
+      </form>
+      <button id="btn-voltar" class="btn btn-claro" type="button">Voltar</button>
+    </section>
+
+    <!-- Acompanhamento -->
+    <section id="view-acompanhar" class="view" hidden>
+      <div id="status-caixa" class="status-caixa">
+        <h1 id="status-titulo"></h1>
+        <p id="status-texto"></p>
+      </div>
+      <button id="btn-cancelar" class="btn btn-perigo" type="button" hidden>Cancelar pedido</button>
+      <button id="btn-ok" class="btn btn-principal" type="button" hidden>Ok</button>
+    </section>
+
+    <!-- Painel do mototaxista -->
+    <section id="view-admin" class="view view-larga" hidden>
+      <h1>Painel do mototaxista</h1>
+      <p class="sub">Pedidos pendentes e aceitos, e os de hoje. Esta tela se atualiza sozinha.</p>
+      <div id="lista-corridas"></div>
+      <button id="btn-limpar" class="btn btn-claro" type="button">Apagar pedidos com mais de 7 dias</button>
+    </section>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

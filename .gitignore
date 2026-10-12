@@ -1,0 +1,12 @@
+# Sistema e editor
+.DS_Store
+Thumbs.db
+.vscode/
+node_modules/
+
+# Arquivos locais e segredos (nunca envie para o GitHub)
+.env
+*.pem
+*.key
+serviceAccount*.json
+*.log
